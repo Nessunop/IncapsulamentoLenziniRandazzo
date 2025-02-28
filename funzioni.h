@@ -17,4 +17,4 @@ string ipChecksum(string bits);
 
 string calcolaCRC(const string &payload);
 string headerData();
-
+	

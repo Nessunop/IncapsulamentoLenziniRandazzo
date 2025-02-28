@@ -1,11 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <string>
 #include "funzioni.h"
 
 
 using namespace std;
+
+
 
 struct headerIp
 {
@@ -29,9 +30,9 @@ struct headerDataLink{
 	string headertype = "1000000000000000";							//0x8000		
 };
 
-
 headerIp ipv4;
 headerDataLink dataLink;
+
 
 // FILE
 // FILE
@@ -125,7 +126,7 @@ void creaFrame()
 	
 	frame = headerIpv4() + frame;   //creo frame con il campo checksum compilato
 
-	frame = headerData() + frame;
+	frame = headerData() + frame;  
 	
 	scriviFrame(frame); // scrivo in file
 }
@@ -138,17 +139,17 @@ string headerIpv4()
 	string frame;
 
 	frame = ipv4.version; // aggiungo tutti i campi dell'header a una stringa che ritorno
-	frame = ipv4.hlen + frame;
-	frame = ipv4.tos + frame;
-	frame = ipv4.totLenght + frame;
-	frame = ipv4.id + frame;
-	frame = ipv4.flags + frame;
-	frame = ipv4.offset + frame;
-	frame = ipv4.ttl + frame;
-	frame = ipv4.protocol + frame;
-	frame = ipv4.checksum + frame;
-	frame = ipv4.ipSource + frame;
-	frame = ipv4.ipDest + frame;
+	frame += ipv4.hlen;
+	frame += ipv4.tos;
+	frame += ipv4.totLenght;
+	frame += ipv4.id;
+	frame += ipv4.flags;
+	frame += ipv4.offset;
+	frame += ipv4.ttl;
+	frame += ipv4.protocol;
+	frame += ipv4.checksum;
+	frame += ipv4.ipSource;
+	frame += ipv4.ipDest;
 	// frame = ipv4.padding + frame;
 
 	return frame;
@@ -166,16 +167,20 @@ string ipChecksum(string bits) {
     }
     unsigned short crc = ~sum & 0xFFFF;
     string scrc = to_string(crc);
+    
+    scrc = stringInBin(scrc);    //converto in binario
+    
     return scrc;
 }
 
-//collegamento
+//HEADER DATALINK
+//HEADER DATALINK
 
 string headerData(){
 	string frame;
 	frame = dataLink.dsap;
-	frame = dataLink.ssap + frame;
-	frame = dataLink.headertype + frame;
+	frame += dataLink.ssap;
+	frame += dataLink.headertype;
 	return frame;
 }
 
